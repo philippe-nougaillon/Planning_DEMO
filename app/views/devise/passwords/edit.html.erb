@@ -1,6 +1,6 @@
 <div class="d-flex flex-column justify-content-center align-items-center mb-5">
   <% unless request.variant.include?(:phone) %>
-    <%= image_tag "logo@2000.png", style: "width: 100%; max-width: 500px;" %>
+    <div style="width: 100%; max-width: 500px; height:100px;"></div>
   <% end %>
   <div class="border border-dark rounded shadow w-100 p-5" style="max-width: 500px">
 <%= bootstrap_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>

@@ -75,7 +75,7 @@
               <% if [4,9].include?(index) %><th></th><th></th><% end %>
             <% end %>
           <% else %>
-            <td colspan=18></td>
+            <td colspan="18"></td>
           <% end %>
           <td><b><%= salle.nom[0..2] %></b></td>
         </tr>
@@ -83,7 +83,7 @@
     </tbody>
   </table>
 
-  <% if current_user && current_user.admin? && (!params[:salle_id] || params[:salle_id].blank?) %>
+  <% if false %>
     <div class="row">
       <div class="col-sm-6">
         <h5>

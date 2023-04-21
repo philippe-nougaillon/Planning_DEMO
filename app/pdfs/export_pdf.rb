@@ -80,7 +80,7 @@ class ExportPdf
         nbr_heures_statutaire = intervenant.nbr_heures_statutaire || 0
         cumul_eotp, cumul_eotp_durée = {}, {}
 
-        image "#{@image_path}/logo@100.png", :height => 40, :position => :center
+        # image "#{@image_path}/logo@100.png", :height => 40, :position => :center
         move_down @margin_down
 
         font "Helvetica"
@@ -247,12 +247,12 @@ class ExportPdf
 
         y_position = cursor
         bounding_box([0, y_position], :width => 250, :height => 100) do
-            text "Eric LAMARQUE"
-            text "Directeur de l'IAE de Paris", size: 8
+            text ""
+            text "M. le directeur", size: 8
         end
         bounding_box([250, y_position], :width => 250) do
-            text "Barbara FITSCH-MOURAS"
-            text "Responsable du service Formation et développement", size: 8 
+            text ""
+            text "Responsable du service", size: 8 
         end    
         
     end
@@ -272,7 +272,7 @@ class ExportPdf
                             end
         end
 
-        image "#{@image_path}/logo@100.png", :height => 40, :position => :center
+        # image "#{@image_path}/logo@100.png", :height => 40, :position => :center
         move_down @margin_down
 
         font "Helvetica"
@@ -372,11 +372,11 @@ class ExportPdf
             end
         else
             bounding_box([0, y_position], :width => 250, :height => 100) do
-                text "Eric LAMARQUE"
-                text "Directeur de l'IAE Paris", size: 8
+                text ""
+                text "M. le directeur", size: 8
             end
             bounding_box([250, y_position], :width => 250) do
-                text is_vacataire ? "" : "Barbara FITSCH-MOURAS"
+                text ""
                 text "Responsable de service", size: 8 
             end
         end
@@ -391,7 +391,7 @@ class ExportPdf
 
             y_position = cursor
             bounding_box([0, y_position], :width => 270) do
-                image "#{@image_path}/logo@100.png", :width => 200
+                # image "#{@image_path}/logo@100.png", :width => 200
             end
             bounding_box([270, y_position], :width => 270) do
                 move_down @margin_down

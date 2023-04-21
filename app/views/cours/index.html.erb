@@ -40,7 +40,7 @@
                           class: "form-control form-control-sm select2", 
                           include_blank:true, onchange: 'this.form.submit()' %>
         </div>
-        <% if user_signed_in? %>
+        <% if true %>
           <div class="col-sm-5">
             <%= label_tag "Intervenant" %>
             <div class="input-group">
@@ -138,7 +138,7 @@
               <th>Durée</th>
               <th>Formation</th>
               
-              <th><%= user_signed_in? ? "Intervenant" : "" %></th>
+              <th><%= true ? "Intervenant" : "" %></th>
               <th colspan="2"><%= user_signed_in? ? "UE/Intitulé du cours" : "UE" %></th>
               <th>Salle</th>
               <% if policy(Cour).action? %>
@@ -203,21 +203,22 @@
               </div>
             <% else %>
               <% if params[:formation].present? || params[:intervenant].present? %>
-                <span class="align-bottom">Exporter vers </span>
-                <%= link_to cours_url(format: :xls), class: 'btn btn-sm btn-success' do %>
-                  <%= fa_icon 'file-excel' %>
-                  Feuille Excel
-                <% end %>
+                <div class="d-flex justify-content-end" style="gap: 1em;">
+                  <%= link_to cours_url(format: :xls), class: 'btn btn-sm btn-success' do %>
+                    <%= fa_icon 'file-excel' %>
+                    Feuille Excel
+                  <% end %>
 
-                <%= link_to cours_url(format: :pdf), class: 'btn btn-sm btn-danger' do %>
-                  <%= fa_icon 'file-pdf' %>
-                  Document PDF
-                <% end %>
+                  <%= link_to cours_url(format: :pdf), class: 'btn btn-sm btn-danger' do %>
+                    <%= fa_icon 'file-pdf' %>
+                    Document PDF
+                  <% end %>
 
-                <%= link_to url_for(params.permit!.merge(format: :ics)), class: 'btn btn-sm btn-primary' do %>
-                  <%= fa_icon 'calendar-day' %>
-                  Calendrier iCal
-                <% end %>
+                  <%= link_to url_for(params.permit!.merge(format: :ics)), class: 'btn btn-sm btn-primary' do %>
+                    <%= fa_icon 'calendar-day' %>
+                    Calendrier iCal
+                  <% end %>
+                </div>
               <% end %>
             <% end %>
         </div>
