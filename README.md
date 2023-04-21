@@ -3,4 +3,4 @@
 
 ## Détail des fonctionnalités
 
-Voir le guide [ici](https://www.philnoug.com/guide_planning).
+[Voir le détail des fonctionnalités](https://www.philnoug.com/guide_planning).
