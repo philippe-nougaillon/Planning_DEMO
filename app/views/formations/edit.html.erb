@@ -1,0 +1,27 @@
+<div class="pb-2 mt-4 mb-2 border-bottom">
+	<div class="btn-group float-right">
+		<%= link_to @formation, class: 'btn btn-sm btn-outline-primary' do %>
+			<%= fa_icon 'eye' %> Voir
+		<% end %>
+
+		<%= link_to '#UE', data: {'toggle':'collapse'}, class: 'btn btn-sm btn-outline-primary' do %>
+			<%= fa_icon 'book' %> UE
+		<% end %>
+
+		<%= link_to '#Etudiants', data: {'toggle':'collapse'}, class: 'btn btn-sm btn-outline-primary' do %>
+			<%= fa_icon 'graduation-cap' %> Etudiants
+		<% end %>
+
+		<%= link_to '#Vacations', data: {'toggle':'collapse'}, class: 'btn btn-sm btn-outline-primary' do %>
+			<%= fa_icon 'user-md' %> Vacations
+		<% end %>
+
+		<%= link_to formations_path, class: 'btn btn-sm btn-outline-primary' do %>
+			<%= fa_icon 'list' %> Retour
+		<% end %>
+
+	</div>
+  	<h3><%= fa_icon 'briefcase' %> Modification d'une formation</h3>
+</div>
+
+<%= render 'form' %>

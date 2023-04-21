@@ -1,0 +1,54 @@
+<div class="pb-2 mt-4 mb-2 border-bottom">
+  <h3><%= fa_icon 'download' %> Import des étudiants</h3>
+</div>
+<br>
+
+<%= form_tag({action: "import_etudiants_do", method: :post}, multipart: true) do %>
+  <div>
+    <h3>Cette fonction permet l'importation / màj d'une liste d'étudiants à partir d'une feuille Excel(.xls)</h3>
+    <br>
+    <p>
+      Les champs attendus sont :
+      <%= Etudiant.xls_headers.join(', ') %>
+    </p>
+    <p>Les champs obligatoires sont :
+      <strong>Civilité, NOM, Prénom, Mail</strong>
+    </p>
+  </div>
+  <br>
+  
+  <div class="row">
+    <div class="col-sm-4">
+      <%= label_tag "Formation" %>    
+      <%= select_tag :formation_id, 
+            options_from_collection_for_select(Formation.all, :id, :nom, params[:formation_id]), 
+              class:"form-control select2", include_blank: true, required: true %>
+      <br>
+      <div class="field">
+        <%= label :filename, "Fichier source" %>
+        <%= file_field_tag 'upload', accept: 'application/vnd.ms-excel', class: 'form-control pb-5 pt-3' %>
+      </div>
+    </div>
+  </div>
+  <br>
+  
+  <div class="field">
+    <b>Enregistrer les changements ?</b> <br>
+    <%= label :save, "Oui", :value => "true" %>
+    <%= radio_button_tag :save, true %>
+    <%= label :save, "Non", :value => "false" %>
+    <%= radio_button_tag :save, false, :checked => true %>
+    <i>Choisissez 'Non' pour tester votre import car <b>il est irréversible !</b></i><br />
+  </div>
+  <br>
+
+  <div class="field">
+    <%= check_box_tag :notify %> <b>Créer un compte d'accès et en informer les étudiants ?</b>
+  </div>
+  <br>
+  
+  <div class="actions">
+    <%= submit_tag "Lancer l'import", class: "btn btn-success" %>
+  </div>
+<% end %>
+<br>

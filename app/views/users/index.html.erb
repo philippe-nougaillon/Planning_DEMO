@@ -1,0 +1,92 @@
+<div class="pb-2 mt-4 mb-2 border-bottom">
+  <% if policy(Formation).new? %>
+    <%= link_to new_user_path, class: 'btn text-primary float-right' do %>
+      <%= fa_icon 'plus-circle' %> Utilisateur
+    <% end %>
+  <% end %>
+  <h3><%= fa_icon 'users' %> Liste des utilisateurs</h3>
+</div>
+
+<div class='container-fluid'>
+  <%= form_tag request.path, method: :get do %>
+    <div class="form-group">
+      <div class="row">
+        <div class="col-sm-4">
+          <%= label_tag :search, "Nom/Prénom/Courriel" %>    
+          <%= text_field_tag :search, params[:search], include_blank:true, onchange:'this.form.submit()', class:"form-control" %>
+        </div>
+
+        <div class="col-sm-2">
+          <%= label_tag :role, "Rôle" %>
+          <%= select_tag :role, 
+                  options_for_select(User.roles, 
+                  params[:role]), 
+                  include_blank:true,
+                  class: 'form-control form-control-sm', 
+                  onchange: 'this.form.submit()' 
+          %>          
+        </div>
+
+        <div class="col-sm-2">
+            <br>
+            <label>
+              <%= check_box_tag :discarded, 1, params[:discarded], onchange: 'this.form.submit()' %>
+              Désactivés ?
+            </label>
+        </div>
+
+      </div>
+    </div>
+  <% end %>
+</div>
+
+<div class="table-responsive">
+  <table class="table table-striped table-hover">
+    <thead>
+      <tr>
+        <th><%= sort_link 'users.nom', 'Nom' %></th>
+        <th>Prénom</th>
+        <th><%= sort_link 'users.email', 'Courriel' %></th>
+        <th>Rôle</th>
+        <th></th>
+      </tr>
+    </thead>
+
+    <tfoot>
+      <tr>
+        <th colspan=4></th>
+      </tr>
+    </tfoot>
+
+    <tbody>
+      <% @users.each do |user| %>
+        <tr>
+          <td><%= link_to user.nom, user %></td>
+          <td><%= user.prénom %></td>
+          <td><%= user.email %></td>
+          <td><%= user.role.humanize %></td>
+          <td>
+            <%= link_to edit_user_path(user), class: "btn btn-default" do %>
+              <%= fa_icon 'edit' %>
+            <% end %>
+            <% unless user.discarded? %>
+              <%= link_to(user, method: :delete, data:{confirm: 'Confirmez-vous la désactivation de cet utilisateur ?'}, class: "btn btn-default", title: "Désactiver cet utilisateur") do %>
+                <%= fa_icon 'trash' %>
+              <% end %>
+            <% else %>
+              <%= fa_icon 'ban', title:"Cet utilisateur ne peut plus se connecter" %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <div class="page_info">
+    <%= page_entries_info @users %>
+  </div>
+
+  <%= will_paginate @users, renderer: WillPaginate::ActionView::BootstrapLinkRenderer %>
+</div>
+<br>
+

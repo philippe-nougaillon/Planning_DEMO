@@ -1,0 +1,144 @@
+<%= bootstrap_form_for(@intervenant) do |f| %>
+  <% if @intervenant.errors.any? %>
+    <div class="alert alert-danger alert-dismissable" role="alert">
+      <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h3><%= t('activerecord.errors.template.header',
+                  model: Intervenant.model_name.human, count: @intervenant.errors.count) %></h3>
+      <ul>
+      <% @intervenant.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="row">
+    <div class="col-sm-5">
+      <%= f.text_field :nom, required: true %>
+      <%= f.text_field :prenom, label:"Prénom", required: true %>
+      <%= f.text_field :email, required: true %>
+      <div class="row">        
+        <div class="col">
+          <%= f.text_field :titre1, label:"Titre" %>
+        </div>
+        <div class="col">
+          <%= f.text_field :bureau %>
+        </div>
+      </div>
+
+      <div class="row">        
+        <div class="col">
+          <%= f.text_field :téléphone_fixe %>
+        </div>
+        <div class="col">
+          <%= f.text_field :téléphone_mobile %>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-sm-1">
+    </div>
+
+    <div class="col-sm-6">
+      <div class="row">
+        <div class="col">
+          <%= f.select :status, Intervenant.statuses.keys.to_a, {include_blank: true, label: 'Statut'}, required: true %>
+        </div>
+
+        <div class="col-5">
+          <%= f.number_field :nbr_heures_statutaire, label:"Nombre heures statutaires" %>
+        </div>
+
+        <div class="col">
+          <%= f.number_field :année_entrée, label:"Année d'entrée" %>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col">
+          <%= f.date_field :date_naissance %>
+        </div>
+
+        <div class="col">
+          <%= f.date_field :remise_dossier_srh, label:"Date remise dossier SRH" %>
+        </div>
+      </div>
+
+      <%= f.text_field :adresse %>
+
+      <div class="row">        
+        <div class="col-sm-3">
+          <%= f.text_field :cp %>
+        </div> 
+        <div class="col-sm-9">
+          <%= f.text_field :ville %>
+        </div>
+      </div>
+    
+      <!---
+      <%= f.file_field :photo %>
+      -->
+
+      <% if current_user.admin? %>
+        <div class="row">        
+          <div class="col">
+            <%= f.check_box :doublon, 
+                            label:"Autoriser les doublons ?", 
+                            title:"Autorise les doublons de cours sur un même créneau horaire !" 
+            %>
+          </div>
+          
+          <div class="col">
+            <%= f.check_box :notifier, 
+                              label: "Notification planning ?",
+                              title: "Envoyer la liste des cours du mois prochain"
+            %>
+          </div>
+        </div>
+      <% end %>
+
+    </div>   
+  </div>
+
+  <% if policy(:tool).can_see_RHGroup_private_tool? %>
+    <h4>Responsabilités</h4>
+    <hr>
+    <%= f.fields_for :responsabilites do |r| %>
+      <div class="row shadow-sm p-1 m-1">
+          <div class="col-sm-2">
+            <%= r.date_field :debut, label:"Date" %>
+          </div>
+
+          <div class="col-sm-6">
+            <%= r.select :titre, Intervenant.liste_responsabilites, include_blank: true %>
+          </div>
+
+          <div class="col-sm-3">
+            <%= r.collection_select :formation_id, 
+                    Formation.where(hors_catalogue: false), 
+                    :id, :nom_eotp, {include_blank: true, label: "Formation/EOTP"} %>
+          </div>  
+  
+          <div class="col-sm-1">
+            <%= r.text_field :heures, label:"Forfait" %>
+          </div>
+
+          <div class="col-sm-8">
+            <%= r.text_field :commentaires, label:"Commentaires" %>
+          </div>
+
+          <div class="col-sm-2">
+            <br>
+            <%= r.check_box :_destroy, label:"Supprimer ?" %>
+          </div>
+      </div>
+    <% end %>
+  <% end %>
+  <br>
+
+  <%= f.submit class: "btn btn-primary" %>
+<% end %>
+<br />
+<br />
+
+

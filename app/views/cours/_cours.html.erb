@@ -1,0 +1,104 @@
+<tr class="shadow-sm">
+    <% if policy(Cour).action? %>
+        <td>
+            <span data-action="click->action#click">
+                <%= check_box_tag "[cours_id][#{cours.id}]", 'yes', false, data: {"target":"action.source"} %>
+            </span>
+        </td>
+    <% end %>
+    <td>
+        <%= link_to cours do %>
+            <b><%= l(cours.debut, format: :heures_min) %></b> 
+            <br>
+            <%= l(cours.fin, format: :heures_min) %>
+        <% end %>
+    </td>
+    <td>
+        <%= number_with_precision(cours.duree, precision: 1, strip_insignificant_zeros: true) %> h
+        <% if cours.debut.to_date == Date.today %>
+            <div class="progress mt-1" style="width: 100%">
+                <div class="progress-bar bg-warning" 
+                    role="progressbar" aria-valuemin="0" aria-valuemax="100" 
+                    style="width: <%= cours.progress_bar_pct3 %>%; opacity: 0.5;">
+                </div>
+            </div>
+        <% end %>
+    </td>
+    <td style="border-left: .3rem solid <%= cours.formation.try(:positive_color) %>">
+        <% if policy(Cour).action? %>
+            <%= link_to cours.formation.try(:nom_nbr_etudiants), cours.formation %>
+        <% else %>
+            <%= link_to cours.formation.try(:nom), cours.formation %>
+        <% end %>
+    </td>
+    <td>
+        <% if user_signed_in? %>
+            <%= link_to cours.intervenant.nom_prenom, cours.intervenant %>
+
+            <% if binome = cours.intervenant_binome %>
+                <br>
+                <%= link_to binome.nom_prenom, cours.intervenant_binome %>
+            <% end %>
+        <% end %>
+
+        <% if user_signed_in? && current_user.admin? %>
+            <% unless cours.invits.where.not("workflow_state = 'non_retenue' OR workflow_state = 'confirmée'").count.zero? %>
+                <br>
+                <%= fa_icon 'calendar-check' %>
+                <%= link_to 'Invitations en cours', invits_path(cours_id: cours.id) %>
+            <% end %>
+        <% end %>
+    </td>
+    <td>
+        <% if cours.code_ue %>
+            <%= link_to "##{ cours.code_ue }", cours_path(ue: cours.code_ue) %>
+        <% end %>
+    </td>
+    <td>
+        <% if user_signed_in? %>
+            <%= cours.nom_ou_ue %>
+        <% end %>
+    </td>
+    <td style="white-space: nowrap;">
+        <% if cours.salle %>
+            <h5>
+                <span class="badge badge-pill badge-<%= cours.style %>">
+                    <%= cours.salle.nom %>
+                </span>
+            </h5>
+            <% if user_signed_in? %>
+                <% if cours.formation && (cours.formation.nbr_etudiants > cours.salle.places) && cours.salle.bloc != 'Z' %>
+                    <i title="Manque <%= cours.formation.nbr_etudiants - cours.salle.places %> place.s">
+                        <%= fa_icon 'exclamation-circle' %>
+                    </i>
+                <% end %>
+            <% end %>
+        <% else %>
+            <% if cours.confirmé? %>
+                <i title="Pas de salle réservée !">
+                    <%= fa_icon 'exclamation-circle' %>
+                </i>
+            <% else %>
+                <h5>
+                    <span class="badge badge-pill badge-<%= cours.style %>">
+                        <%= cours.etat.humanize %>
+                    </span>
+                </h5>
+            <% end %>
+        <% end %>
+
+        <% if policy(Cour).edit? && !cours.commentaires.blank? %>
+            <i title="<%= cours.commentaires %>" >
+                <%= fa_icon 'comment-dots' %>         
+            </i>
+        <% end %>
+    </td>
+
+    <% if policy(Cour).edit? %>
+        <td>
+            <%= link_to edit_cour_path(cours, from: params[:from]), class: "btn btn-sm btn-outline-light text-dark" do %>
+                <%= fa_icon 'edit '%>
+            <% end %>
+        </td>
+    <% end %>
+</tr>

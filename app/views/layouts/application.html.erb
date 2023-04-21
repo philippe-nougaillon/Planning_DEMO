@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <title><%= @sitename %></title>
+    <meta name="description" content="Planning des cours de l'IAE de Paris">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+
+    <link rel="manifest" href="/manifest.json">
+
+    <link rel="apple-touch-icon" sizes="57x57" href="/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-icon-180x180.png">
+
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+
+    <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>  
+
+    <!-- sinon l'écran flappote !  -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-89540844-1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'UA-89540844-1');
+    </script>
+
+  </head>
+
+  <body>
+    <nav class="navbar navbar-expand navbar-light shadow-sm" >
+      <a class="navbar-brand font-weight-bold mt-2 mr-5" href="/" aria-label="logo" style="height: 50px;">
+        Démo
+      </a>
+
+      <div class="container-fluid ml-5">
+        <ul class="navbar-nav">
+          <% if user_signed_in? %>
+            <%= navbar_nav_item('cours', 'calendar-alt', cours_path, 'Planning') %>
+            <%= navbar_nav_item('salles', 'chalkboard', occupation_salles_path) %>
+            <% if policy(current_user).left_navbar? %>
+              <%= navbar_nav_item('formations', 'briefcase', formations_path) %>
+              <%= navbar_nav_item('intervenants', 'chalkboard-teacher', intervenants_path) %>
+              <%= navbar_nav_item('etudiants', 'graduation-cap', etudiants_path) %>
+            <% end %>
+            
+            <% if current_user.rh? %>
+              <%= navbar_nav_item('dossiers', 'folder', dossiers_path) %>
+            <% end %>
+
+            <% if [1,6,41].include?(current_user.id) %>
+              <li class="nav-item">
+                <%= link_to tools_audit_cours_path, class: 'nav-link text-dark' do %>
+                  <%= fa_icon 'calendar-check' %>
+                  À booker
+                  <% aplanifier = CoursNonPlanifie.count %>
+                  <% if aplanifier > 0 %>
+                    <span class="badge badge-danger"><%= aplanifier %></span>
+                  <% end %>
+                <% end %>
+              </li>  
+            <% end %>
+
+          <% end %>
+        </ul>
+
+        <ul class="navbar-nav navbar-right align-items-center">
+          <% if user_signed_in? %>
+            <span class="nav-link mr-5">
+              <%= current_user.username %>
+              <% if current_page? root_path %>
+                <br>
+                <%= current_user.current_sign_in_at_with_ip %>
+              <% end %>
+            </span>
+            <% if policy(current_user).right_navbar? %>
+              <%= navbar_nav_item('', 'wrench', tools_index_path) %>
+              <%= navbar_nav_item('', 'search-plus', tools_rechercher_path) %>
+              <li class="nav-item">
+                <%= link_to 'https://www.philnoug.com/guide_planning', 
+                            class: 'nav-link text-dark', target: "_blank" do %>
+                    <%= fa_icon 'info-circle' %>
+                <% end %>
+              </li>
+            <% end %>
+
+            <li class="nav-item">
+              <%= link_to destroy_user_session_path, method: :delete, title: "Fermer la session de #{current_user.email}", class: "nav-link text-dark" do %><i class="fas fa-fw fa-sign-out-alt"></i></span><% end %> 
+            </li>
+
+          <% else %>
+            <%= navbar_nav_item('Se connecter', 'sign-in-alt', new_user_session_path) %>
+          <% end %>
+        </ul>
+        
+      </div>
+    </nav>
+
+    <div class="container">
+      <% flash.each do |name, msg| %>
+        <%= content_tag :div, class: "alert mt-3 alert-#{ (name == "alert" || name == "error") ? "danger" : "success" } alert-dismissable", role: "alert" do %>
+          <button type="button" class="close" data-dismiss="alert" aria-label="bouton du menu"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+          <%= msg.to_s.html_safe %>
+        <% end %>
+      <% end %>
+
+      <%= yield %>
+      
+    </div>
+  </body>
+
+</html>

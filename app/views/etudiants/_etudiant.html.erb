@@ -1,0 +1,26 @@
+<tr>
+    <td><b><%= link_to etudiant.nom, etudiant %></b></td>
+    <td><%= etudiant.prénom %></td>
+    <td><%= etudiant.civilité %></td>
+    <td>
+        <% if etudiant.formation_id %>
+            <% formation = Formation.unscoped.find(etudiant.formation_id) %>
+            <%= link_to formation.nom, formation %>
+        <% end %>
+    </td>
+    <td>
+        <%= time_ago_in_words etudiant.updated_at %>
+    </td>
+    <td>
+        <% if policy(Etudiant).edit? %>
+            <%= link_to edit_etudiant_path(etudiant), class:"btn btn-default" do %>
+                <%= fa_icon 'edit '%>
+            <% end %>
+        <% end %>
+        <% if policy(Etudiant).destroy? %>
+            <%= link_to(etudiant, method: :delete, data: {confirm: 'Confirmez-vous ?'}, class: 'btn btn-default') do %>
+                <%= fa_icon 'trash' %>
+            <% end %>
+        <% end %>
+    </td>
+</tr>

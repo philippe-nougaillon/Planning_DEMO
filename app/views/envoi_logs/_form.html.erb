@@ -1,0 +1,25 @@
+<%= bootstrap_form_with(model: envoi_log, local: true) do |form| %>
+  <% if envoi_log.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(envoi_log.errors.count, "error") %> empêche cet enregistrement d'être enregistré :</h2>
+
+      <ul>
+        <% envoi_log.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="row">
+    <div class="col-sm-3">
+      <%= form.text_field :date_prochain, type: :date, value: envoi_log.date_prochain.to_date, label: 'Date prévue' %>
+    </div>
+  </div>
+
+  <%= form.rich_text_area :msg, label: "Message (apparaît en bas du corps du mail)", class: "customized-min-height" %>
+  
+  <div class="actions">
+    <%= form.submit "Enregistrer" %>
+  </div>
+<% end %>
