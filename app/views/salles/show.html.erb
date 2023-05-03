@@ -1,0 +1,87 @@
+<div class="pb-2 mt-4 mb-2 border-top">
+  <div class="btn-group float-right">
+    <% if policy(@salle).edit? %>
+      <%= link_to edit_salle_path(@salle), class: 'btn btn-sm btn-outline-primary' do %>
+        <%= fa_icon 'edit' %> Modifier
+      <% end %>
+    <% end %>
+
+    <a href="#audit" data-toggle="collapse" class='btn btn-sm btn-outline-primary'>
+      <%= fa_icon 'search' %> Audit
+    </a>
+
+    <%= link_to salles_path, class: 'btn btn-sm btn-outline-primary' do %>
+      <%= fa_icon 'list' %> Retour
+    <% end %>
+  </div>
+
+  <h2>
+    Salle <%= @salle.nom %>
+  </h2>
+</div>
+
+
+<p>
+  <strong>Nom:</strong>
+  <%= @salle.nom %>
+</p>
+
+<p>
+  <strong>Bloc:</strong>
+  <%= @salle.bloc %>
+</p>
+
+<p>
+  <strong>Places:</strong>
+  <%= @salle.places %>
+</p>
+
+<hr>
+<br>
+
+<div id="audit" class="collapse">
+  <h4>Audit des modifications</h4>
+  <table class="table table-bordered table-hover table-sm">
+    <thead>
+      <th>Date</th>
+      <th>Utilisateur</th>            
+      <th>Type</th>
+      <th>Record_id</th>
+      <th>Action</th>
+      <th>Modifications</th>
+    </thead>
+    <tbody>
+      <%= render partial: 'tools/audit', collection: @salle.audits.includes(:user).reverse %>
+    </tbody>
+  </table>
+
+  <h4>
+    Audit des attributions
+  </h4>
+
+  <table class="table table-bordered table-striped table-hover table-sm">
+    <thead>
+      <th>Date</th>
+      <th>Qui</th>
+      <th>Cours</th>
+      <th>Formation</th>
+      <th>Date du cours</th>
+      <th>Action Salle</th>
+    </thead>
+    <% @audits.includes(:user).each do |audit| %>
+        <% if extract_salle_id(audit) == @salle.id %>
+            <% if cour = Cour.where(id: audit.auditable_id).first %>
+              <tr>
+                <td><%= l(audit.created_at, format: :perso) %></td>
+                <td><%= audit.try(:user).try(:email) %></td>
+                <td><%= link_to audit.auditable_id, cour_path(cour) %></td>
+                <td><%= cour.try(:formation).try(:nom) %></td>
+                <td><%= l(cour.debut, format: :perso) %></td>
+                <td><%= convertir_id_salles(audit) %></td>
+              </tr>
+            <% end %>  
+        <% end %>
+      <% end %>  
+  </table>
+</div>
+

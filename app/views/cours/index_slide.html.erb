@@ -1,0 +1,46 @@
+<% unless @cours_count.zero? %>
+  <table class="table table-bordered table-sm">
+    <thead>
+      <tr>
+        <th>Horaires</th>
+        <th>Formation</th>
+        <th>Intervenant</th>
+        <th>Salle</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% if @les_cours_à_afficher.any? %>
+        <%= render partial: "slide_cour", collection: @les_cours_à_afficher, as: :le_cours %>
+      <% end %>
+    </tbody>
+  </table>
+
+  <span class="navbar-text">
+    <%= @planning_date.to_s(:db) %> 
+    |
+    <% if @max_page_slide %> 
+      Page <%= @current_page_slide + 1 %> sur <%= @max_page_slide + 1 %>
+    <% end %>
+    | <%= @cours_count %> Cours au total
+
+  </span>
+
+  <% if @alert %>
+    <footer class="fixed-bottom px-4 bg-<%= @alert.etat == "warning" ? 'warning text-black' : @alert.etat + ' text-white' %> text-lg mb-0 p-2">
+      <h3 class="mb-0"><%= truncate(@alert.message, length: 110) %></h3>
+    </footer>
+  <% end %>
+
+<% else %>
+  <h1>
+    <%= image_tag("http://www.bing.com/#{@image}", class:"img-thumbnail img-responsive") %>
+  </h1>
+<% end %>
+<br><br>
+
+<script type="text/javascript">    
+    setInterval(function() {
+        window.location.reload();
+    }, <%= @cours_count.zero? ? 60*60000 : 0.2*60000 %>); 
+</script>

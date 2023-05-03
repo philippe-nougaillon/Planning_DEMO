@@ -18,5 +18,20 @@ module Planning
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+
+    config.i18n.default_locale = :fr
+
+    # RackCors conf 
+    config.middleware.insert_before 0, Rack::Cors do
+      allow do
+        origins '*'
+        resource '*', headers: :any, methods: [:get]
+      end
+    end
+    
+    config.active_job.queue_adapter = :sucker_punch
+
+    # pour fixer Psych::DisallowedClass in Devise::SessionsController#create (Tried to load unspecified class: ActiveSupport::TimeWithZone):
+    config.active_record.use_yaml_unsafe_load = true
   end
 end

@@ -90,4 +90,21 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  ActionMailer::Base.delivery_method = :mailgun
+  config.action_mailer.mailgun_settings = {
+    :api_key => ENV['MAILGUN_API_KEY'],
+    :domain => ENV['MAILGUN_DOMAIN'],
+    :api_host => 'api.eu.mailgun.net'  # Uncomment this line for EU region domains
+  }
+
+
+  config.action_mailer.default_url_options = { host: 'planning-demo.herokuapp.com', protocol: 'https' }
+  config.action_mailer.asset_host = 'https://planning-demo.herokuapp.com'
+
+  #config.action_mailer.default_url_options = { host: 'planning4-testing.herokuapp.com', protocol: 'https' }
+  #config.action_mailer.asset_host = 'https://planning4-testing.herokuapp.com/'
+  
+  # set the session cookie to expire automatically 12.hours after creation
+  config.session_store :cookie_store, expire_after: 12.hours
 end

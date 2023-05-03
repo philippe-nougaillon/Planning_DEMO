@@ -1,0 +1,78 @@
+<div class="pb-2 mt-4 mb-2 border-bottom">
+  <h3><%= fa_icon 'inbox' %> Import log #<%= @import_log.id %></h3>
+</div>
+
+<dl class="row">
+  <div class='col'>
+    <dt>Le</dt>
+    <dd><%= @import_log.created_at.in_time_zone('Paris') %></dd>
+
+    <dt>Type</dt>
+    <dd><%= @import_log.model_type %></dd>
+
+    <dt>Par</dt>
+    <dd><%= @import_log.user.username if @import_log.user %></dd>
+
+    <dt>Fichier</dt>
+    <dd>
+        <%= @import_log.fichier %> |
+        <%= link_to "Télécharger", download_imported_file_import_log_path(@import_log) %>
+    </dd>
+
+  </div>
+
+  <div class='col'>
+    <dt>Etat</dt>
+    <dd>
+      <%= fa_icon @import_log.icon_etat, class: @import_log.icon_color %>
+      <%= @import_log.etat.humanize %>
+    </dd>
+
+    <div class="row">
+      <div class="col">
+        <dt>Nbr lignes à importer</dt>
+        <dd><%= link_to @import_log.nbr_lignes, import_log_path(@import_log) %></dd>
+      </div>
+
+      <div class="col">
+        <% if @import_log.etat == "warning" %>
+          <dt>Rejetées</dt>
+          <dd>
+            <%= link_to @import_log.nbr_lignes - @import_log.lignes_importees, import_log_path(@import_log, filter: true) %> 
+          </dd>
+        <% end %>
+      </div>
+
+      <div class="col">
+        <dt>Importées</dt>
+        <dd><%= @import_log.lignes_importees %></dd>
+      </div>
+    </div>
+
+    <dt>Message</dt>
+    <dd class=<%= @import_log.icon_color %>><%= @import_log.message %></dd>
+</dl>
+
+<div class="table-responsive">
+  <table class="table table-striped table-bordered table-hover table-sm">
+    <thead>
+      <tr>
+        <th>Ligne</th>
+        <th>Etat</th>
+        <th>Message</th>
+        <th>Erreur</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @import_log_lines.each do |import_log_line| %>
+        <tr>
+          <td><%= import_log_line.num_ligne %></td>
+          <td><%= fa_icon import_log_line.icon_etat, class: import_log_line.icon_color %></td>
+          <td><%= import_log_line.pretiffy_message.first %></td>
+          <td><%= import_log_line.pretiffy_message.last %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

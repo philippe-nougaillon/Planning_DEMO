@@ -1,0 +1,67 @@
+<div class="pb-2 mt-4 mb-2 border-bottom">
+  <h3><%= fa_icon 'list-alt' %> Etats de services</h3>
+</div>
+<br>
+
+<h3>Récapitule les cours réalisés sur une période donnée, par intervenant</h3>
+<br>
+
+<%= form_tag request.path, method: :get, class: 'mb-5' do %>
+    <div class="row">
+
+        <div class="col-sm-2">
+            <%= label_tag "Du" %>    
+            <%= text_field_tag :start_date, params[:start_date], type: 'date', class: "form-control" %>
+        </div>
+
+        <div class="col-sm-2">
+            <%= label_tag "Au" %>    
+            <%= text_field_tag :end_date, params[:end_date], type: 'date', class: "form-control" %>
+        </div>
+
+        <div class="col-sm-2">
+            <%= label_tag :status, "Statut" %>
+            <%= select_tag :status, 
+                options_for_select(Intervenant.statuses, 
+                params[:status]), include_blank:true,
+                class: "form-control", onchange: 'this.form.submit()' %>
+        </div>
+
+        <div class="col-sm-4">
+            <% if @intervenants_for_select %>
+                <%= label_tag :intervenant_id, "Intervenant" %>
+                <%= select_tag :intervenant_id,
+                                    options_from_collection_for_select(@intervenants_for_select, :id, :nom_prenom, params[:intervenant_id]), 
+                                    include_blank:true, 
+                                    onchange:'this.form.submit()', 
+                                    class: "form-control" %>
+            <% end %>
+       </div>
+    </div>
+<% end %>
+
+<% @intervenants.each do | intervenant | %>
+    <% next if intervenant.id == 1 %>
+
+    <%= render partial: 'etats_services', locals: {intervenant: intervenant } %>
+
+    <div class="text-right">
+        <%= link_to url_for(params
+                                .permit(:start_date, :end_date, :status)
+                                .merge(intervenant_id: intervenant.id, format: 'xls')), 
+                            class: 'btn btn-default btn-xs' do %>
+                <%= fa_icon 'file-excel' %>
+                Export EXCEL
+        <% end %>
+
+        <%= link_to url_for(params
+                                .permit(:start_date, :end_date, :status)
+                                .merge(intervenant_id: intervenant.id, format: 'pdf')), 
+                            class: 'btn btn-danger btn-xs' do %>
+                <%= fa_icon 'file-pdf' %>
+                Export PDF
+        <% end %>
+    </div>
+    <hr>
+
+<% end %>

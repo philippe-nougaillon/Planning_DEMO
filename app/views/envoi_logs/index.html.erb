@@ -1,0 +1,37 @@
+<div class="pb-2 mt-4 mb-2 border-bottom">
+  <h3><%= fa_icon 'bell' %> Planification des notifications</h3>
+  <h5 class='lead'>Pour tester, il faut au moins un cours dans la période (mois courant + 1) ayant un testeur comme intervenant.</h5>
+</div>
+<br>
+
+<table class="table table-bordered table-striped table-hover table-sm">
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Envoi prévu le</th>
+      <th>État</th>
+      <th>Cible</th>
+      <th>MàJ</th>
+      <th colspan="5"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <%= render @envoi_logs %>
+  </tbody>
+
+  <tfoot>
+    <tr>
+      <th colspan=10></th>
+    </tr>
+  </tfoot>
+
+</table>
+
+<div class="page_info">
+  <%= page_entries_info @envoi_logs %>
+</div>
+
+<%= will_paginate @envoi_logs, renderer: WillPaginate::ActionView::BootstrapLinkRenderer %>
+
+<br>
