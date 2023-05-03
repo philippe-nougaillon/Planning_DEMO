@@ -10,7 +10,7 @@ eagerLoadControllersFrom("controllers", application)
 // import { lazyLoadControllersFrom } from "@hotwired/stimulus-loading"
 // lazyLoadControllersFrom("controllers", application)
 
-// https://github.com/rbague/stimulus-check-all
+// // https://github.com/rbague/stimulus-check-all
 
-import CheckAll from "stimulus-check-all"
-application.register("check-all", CheckAll)
+// import CheckAll from "stimulus-check-all"
+// application.register("check-all", CheckAll)
