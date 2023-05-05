@@ -13,6 +13,9 @@ application.register("action", ActionController)
 import DispoController from "./dispo_controller"
 application.register("dispo", DispoController)
 
+import Select2Controller from "./select2_controller"
+application.register("select2", Select2Controller)
+
 // https://github.com/rbague/stimulus-check-all
 
 import CheckAll from "stimulus-check-all"

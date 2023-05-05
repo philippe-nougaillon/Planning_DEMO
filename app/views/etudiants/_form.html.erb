@@ -28,7 +28,7 @@
 
     </div>
 
-    <div class="col-sm-6">
+    <div class="col-sm-6" data-controller="select2">
       <%= f.collection_select(:formation_id, Formation.unscoped.all, :id, :nom, {include_blank: true}, class:"select2") %>
       <%= f.select :workflow_state, Etudiant.workflow_spec.states.keys.to_a, include_blank: true, label: "Statut" %>
     </div>

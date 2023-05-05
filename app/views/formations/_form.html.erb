@@ -167,7 +167,7 @@
               <%= vacation.date_field :date, label: "*Date" %>
             </div>
 
-            <div class="col-sm-3">
+            <div class="col-sm-3" data-controller="select2">
               <%= vacation.collection_select :intervenant_id, 
                                               Intervenant.where(doublon: false), :id, :nom_prenom,
                                               {include_blank: true, label: "*Intervenant", class: "select2"} %>

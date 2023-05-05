@@ -19,7 +19,7 @@
 
           <div class="col-sm-6">
             <%= label_tag "Formation" %>
-            <div class="input-group">
+            <div class="input-group" data-controller="select2">
               <%= select_tag :formation_id, 
                                   options_from_collection_for_select(Formation.unscoped.all, :id, :nom, params[:formation_id]), 
                                   class: 'form-control form-control-sm select2', 
