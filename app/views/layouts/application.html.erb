@@ -53,11 +53,11 @@
 
   <body>
     <nav class="navbar navbar-expand navbar-light shadow-sm" >
-      <a class="navbar-brand font-weight-bold mt-2 mr-5" href="/" aria-label="logo" style="height: 50px;">
+      <a class="navbar-brand fw-bold mt-2 me-5" href="/" aria-label="logo" style="height: 50px;">
         Démo
       </a>
 
-      <div class="container-fluid ml-5">
+      <div class="container-fluid ms-5">
         <ul class="navbar-nav">
           <% if user_signed_in? %>
             <%= navbar_nav_item('cours', 'calendar-alt', cours_path, 'Planning') %>
@@ -90,7 +90,7 @@
 
         <ul class="navbar-nav navbar-right align-items-center">
           <% if user_signed_in? %>
-            <span class="nav-link mr-5">
+            <span class="nav-link me-5">
               <%= current_user.username %>
               <% if current_page? root_path %>
                 <br>
@@ -123,7 +123,7 @@
     <div class="container">
       <% flash.each do |name, msg| %>
         <%= content_tag :div, class: "alert mt-3 alert-#{ (name == "alert" || name == "error") ? "danger" : "success" } alert-dismissable", role: "alert" do %>
-          <button type="button" class="close" data-dismiss="alert" aria-label="bouton du menu"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+          <button type="button" class="btn-close" data-dismiss="alert" aria-label="bouton du menu"><span class="visually-hidden">Close</span></button>
           <%= msg.to_s.html_safe %>
         <% end %>
       <% end %>
