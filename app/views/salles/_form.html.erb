@@ -20,7 +20,7 @@
       <%= f.text_field :bloc %>
       <%= f.number_field :places, label:"Nombre de places" %><i><small>Entrez 0 pour autoriser les doublons</small></i>
       <br><br>
-      <%= f.submit class: "btn btn-primary" %>
+      <%= f.submit class: "btn btn-primary", 'data-turbo': false %>
     </div>
   </div>  
 <% end %>
