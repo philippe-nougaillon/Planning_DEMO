@@ -55,11 +55,11 @@
 
   <body>
     <nav class="navbar navbar-expand navbar-light shadow-sm" >
-      <a class="navbar-brand fw-bold mt-2 me-5" href="/" aria-label="logo" style="height: 50px;">
+      <a class="navbar-brand fw-bold mt-2 ms-3" href="/" aria-label="logo" style="height: 50px;">
         Démo
       </a>
 
-      <div class="container-fluid ms-5">
+      <div class="container-fluid">
         <ul class="navbar-nav">
           <% if user_signed_in? %>
             <%= navbar_nav_item('cours', 'calendar-alt', cours_path, 'Planning') %>
@@ -81,7 +81,7 @@
                   À booker
                   <% aplanifier = CoursNonPlanifie.count %>
                   <% if aplanifier > 0 %>
-                    <span class="badge badge-danger"><%= aplanifier %></span>
+                    <span class="badge bg-danger"><%= aplanifier %></span>
                   <% end %>
                 <% end %>
               </li>  

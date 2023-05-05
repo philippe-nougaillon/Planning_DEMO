@@ -41,7 +41,7 @@
           </td>
           <td><%= cours.ue %></td>
           <td><%= cours.nom %></td>
-          <td><span class="badge badge-<%= cours.style %>"><%= cours.etat.humanize %></span></td>
+          <td><span class="badge bg-<%= cours.style %>"><%= cours.etat.humanize %></span></td>
           <td><%= cours.try(:salle).try(:nom)  %></td>
           <td><%= cours.audits.first.user.try(:email) %></td>
         </tr>
