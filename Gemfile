@@ -147,3 +147,5 @@ gem "scenic"
 gem "mailgun-ruby"
 
 gem "sortable-for-rails"
+
+gem "matrix", "~> 0.4.2"
