@@ -6,3 +6,14 @@ import { application } from "./application"
 
 import HelloController from "./hello_controller"
 application.register("hello", HelloController)
+
+import ActionController from "./action_controller"
+application.register("action", ActionController)
+
+import DispoController from "./dispo_controller"
+application.register("dispo", DispoController)
+
+// https://github.com/rbague/stimulus-check-all
+
+import CheckAll from "stimulus-check-all"
+application.register("check-all", CheckAll)

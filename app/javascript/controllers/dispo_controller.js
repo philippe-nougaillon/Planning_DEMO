@@ -1,6 +1,6 @@
 import { Controller } from "@hotwired/stimulus"
-// import Rails from "@rails/ujs";
-// import $ from 'jquery';
+import Rails from "@rails/ujs";
+import $ from 'jquery';
 
 export default class extends Controller {
   static targets = [ 'id', 'date', 'duree', 'formation_id', 'intervenant_id', 'salles' ]
