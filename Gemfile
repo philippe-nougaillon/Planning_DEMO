@@ -86,7 +86,7 @@ end
 gem 'font_awesome5_rails'
 
 gem 'bootstrap_form'
-gem 'simple_calendar'
+gem 'simple_calendar', '2.3.0'
 gem 'devise'
 gem 'devise-i18n'
 gem 'audited'

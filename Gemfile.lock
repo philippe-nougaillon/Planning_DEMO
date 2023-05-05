@@ -304,7 +304,7 @@ GEM
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
-    simple_calendar (2.4.3)
+    simple_calendar (2.3.0)
       rails (>= 3.0)
     sitemap_generator (6.3.0)
       builder (~> 3.0)
@@ -412,7 +412,7 @@ DEPENDENCIES
   sassc-rails
   scenic
   selenium-webdriver
-  simple_calendar
+  simple_calendar (= 2.3.0)
   sitemap_generator
   sortable-for-rails
   spreadsheet
