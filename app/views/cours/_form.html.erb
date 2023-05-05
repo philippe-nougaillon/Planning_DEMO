@@ -18,20 +18,20 @@
   <%= hidden_field_tag :from, params[:from] %>
 
   <div data-controller="dispo">
-    <%= hidden_field_tag :id, @cour.id, data: { "target": "dispo.id" } %>
+    <%= hidden_field_tag :id, @cour.id, 'data-dispo-target': 'id' %>
 
     <%= f.text_field :debut, 
                             value: @cour.debut.strftime("%Y-%m-%dT%H:%M"), 
                             type: "datetime-local", 
                             label: "Date", 
-                            data: { "target":"dispo.date" } %>
+                            'data-dispo-target': 'date' %>
 
     <%= f.select  :duree, 
                             options_for_select(Cour.durées, @cour.duree.to_s), 
                             { include_blank: true, 
                             label: "Durée" }, 
                             required: true, 
-                            data: { "target": "dispo.duree" } %>
+                            'data-dispo-target': 'duree' %>
     
     <%= f.collection_select :formation_id, 
                             Formation.unscoped.order(:nom, :promo), 
@@ -40,7 +40,7 @@
                             {include_blank: true},
                             required: true, 
                             class: "select2",
-                            data: { "target": "dispo.formation_id"} %>
+                            'data-dispo-target': 'formation_id' %>
     
     <%= f.collection_select :intervenant_id, 
                             Intervenant.all, 
@@ -51,7 +51,7 @@
                             id: "intervenant_id",
                             class: "select2",
                             data: {
-                              "target": "dispo.intervenant_id",
+                              "dispo-target": "intervenant_id",
                               "action": (@cour.new_record? ? "change->dispo#show_dispo" : '') 
                             } %>
 
@@ -80,7 +80,7 @@
                                         :id, 
                                         :nom_places, 
                                         { include_blank: true },
-                                        data: { "target": "dispo.salles" } %>
+                                        'data-dispo-target': 'salles' %>
   
       <%= f.form_group do %>
         <span data-action="click->dispo#show_dispo" 

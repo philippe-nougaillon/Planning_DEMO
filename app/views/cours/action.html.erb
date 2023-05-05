@@ -269,13 +269,13 @@
     <br>
     <div data-controller="check-all action">
       <div data-action="click->action#click">
-        <input id="checkall" type="checkbox" data-target="check-all.all action.source">
+        <input id="checkall" type="checkbox" data-check-all-target="all" data-action-target="source">
         <label for="checkall">Tous ?</label>
       </div>
       <% @cours.each do |c| %>
         <% c.formation.etudiants.order(:nom, :prénom).each do |etudiant| %>
           <span data-action="click->action#click">
-            <%= check_box_tag "[etudiants_id][#{etudiant.id}]", true, false, data: {"target":"action.source"} %>
+            <%= check_box_tag "[etudiants_id][#{etudiant.id}]", true, false, 'data-action-target': 'source' %>
           </span>
           <%= etudiant.nom_prénom %>
           <br>
